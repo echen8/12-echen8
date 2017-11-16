@@ -7,10 +7,11 @@ int main(){
 	srand((unsigned int)time(NULL));
 
 	printf("Some initial message\n");
-	
 
 	int f1 = fork();
 	int f2 = fork();
+
+	wait( NULL );
 	
 	if (f1 == 0 && f2 == 0){
 
