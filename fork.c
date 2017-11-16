@@ -8,33 +8,32 @@
 
 int main() {
   
-  srand((unsigned int)time(NULL));
+  srand(time(NULL));
   int r;
 
-  printf("Some initial message\n");
+  printf("======================================\nSome initial message\n");
 
   int f1 = fork();
   int f2 = fork();
 
-  // PROBLEM??
-  int cpid = wait( NULL );
+  int cpid;
+  wait( &cpid );
 
   // Actions for child processes.
   if (f1 == 0 && f2 == 0) {
 
     r =  (rand() % 15) + 5;
     
-    printf("I'm a child: %d\t f1: %d\t parent : %d\n", getpid(), f1, getppid());
+    printf("C| PID: %d\tPPID: %d\n", getpid(), f1, getppid());
     sleep( r );
-    printf("I'm a child: %d\t f2: %d\t parent : %d\n", getpid(), f2, getppid());
 	
-    printf("A message that it is finished\n");
+    printf( "Child#%d process finished.\n", getpid() );
   }
 
   // NOT WORKING
-  printf( "Child's pid: %d\tSleep time:%d\n", cpid, r );
+  printf( "A| PID: %d\tChild's pid: %d\tChild's sleep time:%dms\n", getpid(), cpid, r );
 
-  printf( "\nA message that the parent is done\n" );
+  printf( "A message that the parent is done\n" );
 
   exit(0);
 
