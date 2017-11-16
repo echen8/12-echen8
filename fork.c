@@ -3,25 +3,43 @@
 #include <unistd.h>
 #include <time.h>
 
-int main(){
-	srand((unsigned int)time(NULL));
 
-	printf("Some initial message\n");
+// STUFF NOT WORKING: PARENT'S CHILD SLEEP TIME AND CHILD'S PID
 
-	int f1 = fork();
-	int f2 = fork();
+int main() {
+  
+  srand((unsigned int)time(NULL));
+  int r;
 
-	wait( NULL );
+  printf("Some initial message\n");
+
+  int f1 = fork();
+  int f2 = fork();
+
+  // PROBLEM??
+  int cpid = wait( NULL );
+
+  // Actions for child processes.
+  if (f1 == 0 && f2 == 0) {
+
+    r =  (rand() % 15) + 5;
+    
+    printf("I'm a child: %d\t f1: %d\t parent : %d\n", getpid(), f1, getppid());
+    sleep( r );
+    printf("I'm a child: %d\t f2: %d\t parent : %d\n", getpid(), f2, getppid());
 	
-	if (f1 == 0 && f2 == 0){
+    printf("A message that it is finished\n");
+  }
 
-		printf("I'm a child: %d\t f1: %d\t parent : %d\n", getpid(), f1, getppid());
-		sleep( ((rand() % 15) + 5) );
-		printf("I'm a child: %d\t f2: %d\t parent : %d\n", getpid(), f2, getppid());
-	
-		printf("Finished with processing\n");
-	}
+  // NOT WORKING
+  printf( "Child's pid: %d\tSleep time:%d\n", cpid, r );
 
+  printf( "\nA message that the parent is done\n" );
+
+  exit(0);
+
+  return 0;
+}
 
 	
 	
