@@ -1,4 +1,6 @@
 all: fork.c
-	gcc -o fork fork.c
+	gcc -o forkin fork.c
 run: all
-	./fork
+	./forkin
+clean:
+	rm *~

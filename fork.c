@@ -8,34 +8,39 @@
 
 int main() {
   
-  srand(time(NULL));
-  int r;
+  srand( time(NULL) );
 
-  printf("======================================\nSome initial message\n");
+  printf( "======================================\n" );
+  printf( "Some initial message\n" );
 
-  int f1 = fork();
-  int f2 = fork();
+  int f1 = fork(); // First child and parent pid
+  int f2; // Second child and parent pid
 
-  int cpid;
-  wait( &cpid );
-
-  // Actions for child processes.
-  if (f1 == 0 && f2 == 0) {
-
-    r =  (rand() % 15) + 5;
-    
-    printf("C| PID: %d\tPPID: %d\n", getpid(), f1, getppid());
-    sleep( r );
-	
-    printf( "Child#%d process finished.\n", getpid() );
+  // 2nd fork from parent
+  if ( f1 ) {
+    f2 = fork();
   }
 
-  // NOT WORKING
-  printf( "A| PID: %d\tChild's pid: %d\tChild's sleep time:%dms\n", getpid(), cpid, r );
+  // PARENT
+  if ( f1 && f2 ) {
+    
+    int status;
+    int cpid = wait( &status );
+    
+    printf( "P| First place child: %d\tSlept for %d seconds\n", cpid, WEXITSTATUS( status ) );
+    printf( "P| Parent finished!\n" );
 
-  printf( "A message that the parent is done\n" );
-
-  exit(0);
+    exit(1);
+  }
+  
+  // CHILD
+  if ( !f1 || !f2 ) {
+    printf( "C| pid: %d\n", getpid() );
+    int sleeptime = ( rand() % 16 ) + 5;
+    sleep( sleeptime );
+    printf( "C| pid%d finished.\n", getpid() );
+    return sleeptime;
+  }
 
   return 0;
 }
