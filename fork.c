@@ -4,8 +4,6 @@
 #include <time.h>
 
 
-// STUFF NOT WORKING: PARENT'S CHILD SLEEP TIME AND CHILD'S PID
-
 int main() {
   
   srand( time(NULL) );
